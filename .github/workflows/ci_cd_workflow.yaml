@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: # your ecr repository name
+  ECR_REPOSITORY: sentiment-app-onnx
   S3_BUCKET: mlops-lab11-models-jkoldun
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v7
