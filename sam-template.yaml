@@ -16,6 +16,7 @@ Resources:
       Role: !Ref LambdaExecutionRoleArn
       MemorySize: 512
       Timeout: 30
+      KmsKeyArn: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/lambda"
       Events:
         Api:
           Type: HttpApi
