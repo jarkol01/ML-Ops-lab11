@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 import onnxruntime as ort
 from tokenizers import Tokenizer
 import numpy as np
@@ -15,6 +15,13 @@ ort_classifier = ort.InferenceSession("model/classifier.onnx")
 
 class PredictRequest(BaseModel):
     text: str
+
+    @field_validator('text')
+    @classmethod
+    def validate_text(cls, v: str) -> str:
+        if not v or len(v.strip()) == 0:
+            raise ValueError('String should have at least 1 character')
+        return v
 
 class PredictResponse(BaseModel):
     label: str
