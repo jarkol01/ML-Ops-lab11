@@ -1,6 +1,16 @@
 name: CI/CD workflow
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      steps:
+        description: 'Pipeline steps to run'
+        required: true
+        type: choice
+        options:
+          - integration
+          - all
+        default: all
 
 env:
   AWS_REGION: us-east-1
@@ -10,6 +20,7 @@ env:
 jobs:
   integration:
     name: checks_and_tests
+    if: ${{ inputs.steps == 'all' || inputs.steps == 'integration' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repo
@@ -30,6 +41,7 @@ jobs:
 
   deployment:
     name: deploy
+    if: ${{ inputs.steps == 'all' && needs.integration.result == 'success' }}
     needs: integration
     runs-on: ubuntu-latest
     steps:
