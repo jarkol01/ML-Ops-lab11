@@ -36,8 +36,8 @@ jobs:
       - name: Run ruff check
         run: uv run ruff check .
 
-      # - name: Run pytest
-      #   run: uv run pytest
+      - name: Run pytest
+        run: uv run pytest
 
   deployment:
     name: deploy
